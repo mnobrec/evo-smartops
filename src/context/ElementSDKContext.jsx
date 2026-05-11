@@ -12,7 +12,10 @@ const defaultConfig = {
   primary_action: '#3B82F6',
   secondary_action: '#06B6D4',
   font_family: 'Space Grotesk',
-  font_size: 16
+  font_size: 16,
+  whatsapp_number: '5571986014066', 
+  whatsapp_message: 'Olá! Gostaria de saber mais sobre a EVO - SmartOps.',
+  email: 'contato@evo-smartops.com.br'
 }
 
 const ElementSDKContext = createContext()
@@ -63,7 +66,10 @@ export function ElementSDKProvider({ children }) {
               ['subheadline', cfg.subheadline || defaultConfig.subheadline],
               ['cta_primary', cfg.cta_primary || defaultConfig.cta_primary],
               ['cta_secondary', cfg.cta_secondary || defaultConfig.cta_secondary],
-              ['brand_name', cfg.brand_name || defaultConfig.brand_name]
+              ['brand_name', cfg.brand_name || defaultConfig.brand_name],
+              ['whatsapp_number', cfg.whatsapp_number || defaultConfig.whatsapp_number],
+              ['whatsapp_message', cfg.whatsapp_message || defaultConfig.whatsapp_message],
+              ['email', cfg.email || defaultConfig.email]
             ])
           })
         }

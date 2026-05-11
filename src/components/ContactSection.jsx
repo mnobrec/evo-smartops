@@ -1,6 +1,10 @@
+import { useState } from 'react'
 import { Phone, Mail, MapPin } from 'lucide-react'
+import ContactModal from './ContactModal'
 
 export default function ContactSection() {
+  const [modalOpen, setModalOpen] = useState(false)
+
   return (
     <section id="contato" className="relative py-24 md:py-32 px-6 border-t border-white/[0.04]">
       <div className="max-w-4xl mx-auto text-center">
@@ -19,14 +23,21 @@ export default function ContactSection() {
         </p>
 
         <div className="fade-up fade-up-d3 flex flex-col sm:flex-row justify-center gap-4 mb-16">
-          <button className="btn-primary relative z-10 bg-blue-500 hover:bg-blue-600 text-white font-medium px-8 py-4 rounded-xl transition-all text-sm tracking-wide shadow-lg shadow-blue-500/20">
+          <button
+            onClick={() => setModalOpen(true)}
+            className="btn-primary relative z-10 bg-blue-500 hover:bg-blue-600 text-white font-medium px-8 py-4 rounded-xl transition-all text-sm tracking-wide shadow-lg shadow-blue-500/20"
+          >
             Falar com especialista
           </button>
-          <button className="group flex items-center justify-center gap-2 border border-white/5 hover:border-cyan-400/30 text-gray-400 hover:text-white font-medium px-8 py-4 rounded-xl transition-all text-sm bg-white/[.02] hover:bg-white/[.05]">
+          <button
+            onClick={() => setModalOpen(true)}
+            className="group flex items-center justify-center gap-2 border border-white/5 hover:border-cyan-400/30 text-gray-400 hover:text-white font-medium px-8 py-4 rounded-xl transition-all text-sm bg-white/[.02] hover:bg-white/[.05]"
+          >
             <Phone size={16} className="text-cyan-400" /> WhatsApp
           </button>
         </div>
 
+        {/* Informações de contato (inalterado) */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left fade-up" style={{ animationDelay: '.6s' }}>
           <div className="bg-white/[0.02] rounded-xl p-4 border border-white/[0.04]">
             <Phone size={16} className="text-cyan-400 mb-2" />
@@ -45,6 +56,9 @@ export default function ContactSection() {
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </section>
   )
 }

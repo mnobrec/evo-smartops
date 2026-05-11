@@ -1,68 +1,61 @@
+import { useState } from 'react'
 import { MessageCircle, Check, Bot, FileText, Zap } from 'lucide-react'
 import { useElementSDK } from '../context/ElementSDKContext'
+import { getWhatsAppLink } from '../utils/whatsapp'
+import ContactModal from './ContactModal'
 
 export default function Hero() {
+  const [modalOpen, setModalOpen] = useState(false)
   const { config } = useElementSDK()
 
   const headline = config.headline
   const subheadline = config.subheadline
   const ctaPrimary = config.cta_primary
   const ctaSecondary = config.cta_secondary
+  const whatsappLink = getWhatsAppLink(config.whatsapp_number, config.whatsapp_message)
 
-  // Divide o headline para destacar as últimas duas palavras
   const words = headline.split(' ')
   const lastTwo = words.slice(-2).join(' ')
   const rest = words.slice(0, -2).join(' ')
 
   return (
     <section id="inicio" className="relative pt-24 pb-16 md:pt-32 md:pb-24 px-6">
+      {/* ... cabeçalho igual ... */}
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-10">
-        
-        {/* LADO ESQUERDO: TEXTO */}
         <div className="flex-1 max-w-2xl">
-          {/* Badge */}
+          {/* Badge, headline, subheadline etc. (código existente) */}
           <div className="fade-up fade-up-d1 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-400/20 bg-cyan-400/5 mb-8">
             <span className="w-2 h-2 rounded-full bg-cyan-400 pulse-g"></span>
-            <span className="text-xs text-cyan-400 font-medium tracking-wide font-mono">
-              AUTOMAÇÃO OPERACIONAL
-            </span>
+            <span className="text-xs text-cyan-400 font-medium tracking-wide font-mono">AUTOMAÇÃO OPERACIONAL</span>
           </div>
-
-          {/* Headline */}
           <h1 className="fade-up fade-up-d2 text-4xl md:text-5xl lg:text-[3.2rem] font-bold leading-[1.1] text-white text-glow tracking-tight">
             {rest}{' '}
-            <span className="bg-gradient-to-r from-blue-500 via-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              {lastTwo}
-            </span>
+            <span className="bg-gradient-to-r from-blue-500 via-cyan-400 to-purple-500 bg-clip-text text-transparent">{lastTwo}</span>
           </h1>
+          <p className="fade-up fade-up-d3 mt-5 text-base md:text-lg text-gray-400 leading-relaxed max-w-xl">{subheadline}</p>
 
-          {/* Subheadline */}
-          <p className="fade-up fade-up-d3 mt-5 text-base md:text-lg text-gray-400 leading-relaxed max-w-xl">
-            {subheadline}
-          </p>
-
-          {/* Botões */}
           <div className="fade-up fade-up-d4 mt-8 flex flex-col sm:flex-row gap-3">
-            <button className="btn-primary relative z-10 bg-blue-500 hover:bg-blue-600 text-white font-medium px-7 py-3 rounded-xl transition-all text-sm tracking-wide shadow-lg shadow-blue-500/20">
+            <button
+              onClick={() => setModalOpen(true)}
+              className="btn-primary relative z-10 bg-blue-500 hover:bg-blue-600 text-white font-medium px-7 py-3 rounded-xl transition-all text-sm tracking-wide shadow-lg shadow-blue-500/20"
+            >
               {ctaPrimary}
             </button>
-            <button className="group flex items-center justify-center gap-2 border border-white/5 hover:border-cyan-400/30 text-gray-400 hover:text-white font-medium px-7 py-3 rounded-xl transition-all text-sm bg-white/[.02] hover:bg-white/[.05] backdrop-blur-sm">
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center justify-center gap-2 border border-white/5 hover:border-cyan-400/30 text-gray-400 hover:text-white font-medium px-7 py-3 rounded-xl transition-all text-sm bg-white/[.02] hover:bg-white/[.05] backdrop-blur-sm"
+            >
               <MessageCircle size={16} className="text-cyan-400 group-hover:text-cyan-400 transition-colors" />
               {ctaSecondary}
-            </button>
+            </a>
           </div>
 
-          {/* Checks */}
           <div className="fade-up mt-8 flex items-center gap-5 text-xs text-gray-400" style={{ animationDelay: '.7s' }}>
-            <span className="flex items-center gap-1">
-              <Check size={12} className="text-cyan-400" /> Sem mensalidade
-            </span>
-            <span className="flex items-center gap-1">
-              <Check size={12} className="text-cyan-400" /> Entrega rápida
-            </span>
-            <span className="flex items-center gap-1">
-              <Check size={12} className="text-cyan-400" /> Suporte dedicado
-            </span>
+            <span className="flex items-center gap-1"><Check size={12} className="text-cyan-400" /> Sem mensalidade</span>
+            <span className="flex items-center gap-1"><Check size={12} className="text-cyan-400" /> Entrega rápida</span>
+            <span className="flex items-center gap-1"><Check size={12} className="text-cyan-400" /> Suporte dedicado</span>
           </div>
         </div>
 
@@ -172,6 +165,7 @@ export default function Hero() {
           </div>
         </div>
       </div>
+      <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </section>
   )
 }

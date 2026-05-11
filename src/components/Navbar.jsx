@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { useElementSDK } from '../context/ElementSDKContext'
+import ContactModal from './ContactModal'
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
   const { config } = useElementSDK()
 
   const brandName = config.brand_name
@@ -33,7 +35,10 @@ export default function Navbar() {
             <a href="#contato" onClick={(e) => scrollToSection(e, 'contato')} className="text-sm text-gray-400 hover:text-white transition-colors">Contato</a>
           </div>
           <div className="hidden md:block">
-            <button className="btn-primary relative z-10 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-all">
+            <button
+              onClick={() => setModalOpen(true)}
+              className="btn-primary relative z-10 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-all"
+            >
               {ctaText}
             </button>
           </div>
@@ -43,6 +48,7 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Menu mobile */}
       <div className={`mobile-menu fixed top-0 right-0 w-72 h-full z-50 bg-[#0B0F19]/95 backdrop-blur-xl border-l border-white/5 flex flex-col p-8 pt-20 ${mobileOpen ? 'open' : ''}`}>
         <button className="absolute top-5 right-5 text-gray-400 hover:text-white transition-colors" onClick={() => setMobileOpen(false)}>
           <X size={24} />
@@ -52,10 +58,16 @@ export default function Navbar() {
         <a href="#beneficios" onClick={(e) => scrollToSection(e, 'beneficios')} className="text-gray-300 hover:text-white py-3 border-b border-white/5 transition-colors">Benefícios</a>
         <a href="#tecnologias" onClick={(e) => scrollToSection(e, 'tecnologias')} className="text-gray-300 hover:text-white py-3 border-b border-white/5 transition-colors">Tecnologias</a>
         <a href="#contato" onClick={(e) => scrollToSection(e, 'contato')} className="text-gray-300 hover:text-white py-3 border-b border-white/5 transition-colors">Contato</a>
-        <button className="btn-primary bg-blue-500 text-white text-sm font-medium px-5 py-2.5 rounded-lg mt-6 relative z-10">
+        <button
+          onClick={() => setModalOpen(true)}
+          className="btn-primary bg-blue-500 text-white text-sm font-medium px-5 py-2.5 rounded-lg mt-6 relative z-10"
+        >
           {ctaText}
         </button>
       </div>
+
+      {/* Modal de contato */}
+      <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </>
   )
 }
